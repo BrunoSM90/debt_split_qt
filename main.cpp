@@ -2,10 +2,23 @@
 
 #include <QApplication>
 
+/*--------------------------------------------------------------------------------*/
+
+int Inicializa(int argc, char* argv[]);
+
+/*--------------------------------------------------------------------------------*/
+
 int main(int argc, char* argv[])
 {
-    QApplication a(argc, argv);
-    MainWindow w;
-    w.show();
-    return a.exec();
+    return Inicializa(argc, argv);
+}
+
+/*--------------------------------------------------------------------------------*/
+
+int Inicializa(int argc, char* argv[])
+{
+    //vai receber injeção dos serviços
+    auto presenter = new TCalculadoraPresenter();
+
+    return presenter->ShowWindow(argc, argv);
 }

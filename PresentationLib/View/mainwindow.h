@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <CalculadoraWrapper.h>
+#include "CalculadoraWrapper.h"
 
 /*--------------------------------------------------------------------------------*/
 

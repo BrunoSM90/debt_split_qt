@@ -1,6 +1,5 @@
-#include "mainwindow.h"
 
-#include <QApplication>
+#include "Presenter/CalculadoraPresenter.h"
 
 /*--------------------------------------------------------------------------------*/
 
@@ -22,3 +21,5 @@ int Inicializa(int argc, char* argv[])
 
     return presenter->ShowWindow(argc, argv);
 }
+
+/*--------------------------------------------------------------------------------*/

@@ -4,6 +4,7 @@
 #include <qvector.h>
 #include <iostream>
 
+
 /*--------------------------------------------------------------------------------*/
 
 MainWindow::MainWindow(

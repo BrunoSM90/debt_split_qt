@@ -17,8 +17,8 @@ set(SERVICES_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/../ServicesLib)
 set(SOURCES 
     ${PRESENTER_FOLDER}/CalculadoraPresenter.h
     ${PRESENTER_FOLDER}/CalculadoraPresenter.cpp
-    ${VIEW_FOLDER}/mainwindow.h
-    ${VIEW_FOLDER}/mainwindow.cpp
+    ${VIEW_FOLDER}/CalculadoraView.h
+    ${VIEW_FOLDER}/CalculadoraView.cpp
     ${VIEW_FOLDER}/mainwindow.ui
     ${INTERFACES_FOLDER}/ICalculadoraViewSubscriber.h
     ${INTERFACES_FOLDER}/ICalculadoraView.h

@@ -1,16 +1,8 @@
 #include "CalculadoraPresenter.h"
 
-#include "mainwindow.h"
-
-#include <QApplication>
 #include <iostream>
-
 #include <qvector.h>
 #include <qstring.h>
-
-/*--------------------------------------------------------------------------------*/
-
-using namespace std;
 
 /*--------------------------------------------------------------------------------*/
 

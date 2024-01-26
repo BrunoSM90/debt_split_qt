@@ -1,9 +1,9 @@
 #include <QApplication>
 
-#include "Presenter/CalculadoraPresenter.h"
 #include "Interfaces/ICalculadoraView.h"
 #include "Interfaces/ICalculadoraViewSubscriber.h"
-#include "View/mainwindow.h"
+#include "Presenter/CalculadoraPresenter.h"
+#include "View/CalculadoraView.h"
 
 /*--------------------------------------------------------------------------------*/
 

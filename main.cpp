@@ -1,25 +1,22 @@
+#include <QApplication>
 
 #include "Presenter/CalculadoraPresenter.h"
-
-/*--------------------------------------------------------------------------------*/
-
-int Inicializa(int argc, char* argv[]);
+#include "Interfaces/ICalculadoraView.h"
+#include "Interfaces/ICalculadoraViewSubscriber.h"
+#include "View/mainwindow.h"
 
 /*--------------------------------------------------------------------------------*/
 
 int main(int argc, char* argv[])
 {
-    return Inicializa(argc, argv);
-}
+    QApplication application(argc, argv);
 
-/*--------------------------------------------------------------------------------*/
+    ICalculadoraView* view = new CalculadoraView();
+    ICalculadoraViewSubscriber* presenter = new TCalculadoraPresenter(view);
 
-int Inicializa(int argc, char* argv[])
-{
-    //vai receber injeção dos serviços
-    auto presenter = new TCalculadoraPresenter();
+    view->Show();
 
-    return presenter->ShowWindow(argc, argv);
+    return application.exec();
 }
 
 /*--------------------------------------------------------------------------------*/

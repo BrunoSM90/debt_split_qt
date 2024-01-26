@@ -9,27 +9,27 @@ set(CMAKE_AUTORCC ON)
 set(LIBRARY_OUTPUT_PATH ${CMAKE_BINARY_DIR}/PresentationLib)
 
 set(PRESENTER_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/Presenter)
-set(WRAPPER_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/Wrapper)
 set(VIEW_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/View)
+set(INTERFACES_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/Interfaces)
 
 set(SERVICES_FOLDER ${CMAKE_CURRENT_SOURCE_DIR}/../ServicesLib)
 
 set(SOURCES 
     ${PRESENTER_FOLDER}/CalculadoraPresenter.h
     ${PRESENTER_FOLDER}/CalculadoraPresenter.cpp
-    ${WRAPPER_FOLDER}/CalculadoraWrapper.h
-    ${WRAPPER_FOLDER}/CalculadoraWrapper.cpp
     ${VIEW_FOLDER}/mainwindow.h
     ${VIEW_FOLDER}/mainwindow.cpp
     ${VIEW_FOLDER}/mainwindow.ui
+    ${INTERFACES_FOLDER}/ICalculadoraViewSubscriber.h
+    ${INTERFACES_FOLDER}/ICalculadoraView.h
 )
 
 include_directories(
     "${CMAKE_CURRENT_SOURCE_DIR}"
     "${PRESENTER_FOLDER}"
-    "${WRAPPER_FOLDER}"
     "${VIEW_FOLDER}"
     "${SERVICES_FOLDER}"
+    "${INTERFACES_FOLDER}"
 )
 
 find_package(Qt5Core REQUIRED)

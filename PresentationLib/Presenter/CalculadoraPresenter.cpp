@@ -5,40 +5,34 @@
 #include <QApplication>
 #include <iostream>
 
+#include <qvector.h>
+#include <qstring.h>
+
 /*--------------------------------------------------------------------------------*/
 
 using namespace std;
 
 /*--------------------------------------------------------------------------------*/
 
-TCalculadoraPresenter::TCalculadoraPresenter()
+TCalculadoraPresenter::TCalculadoraPresenter(
+    ICalculadoraView* _view
+) :
+    view(_view)
 {
+    view->Subscribe(this);
 }
 
 /*--------------------------------------------------------------------------------*/
 
 void TCalculadoraPresenter::CadastraParticipantes(
-    vector<string>* participantes
+	QVector<QString>* participantes
 )
 {
-    for (string nome : *participantes) {
-        cout << nome << endl;
-    }
-}
-
-/*--------------------------------------------------------------------------------*/
-
-int TCalculadoraPresenter::ShowWindow(
-    int argc,
-    char* argv[]
-) 
-{
-    QApplication a(argc, argv);
-
-    MainWindow w(new TCalculadoraWrapper(this));
-    w.show();
-
-    return a.exec();
+	using namespace std;
+	vector<string>* nomes = new vector<string>();
+	for (QString nome : *participantes) {
+		nomes->push_back(nome.toStdString().c_str());
+	}
 }
 
 /*--------------------------------------------------------------------------------*/

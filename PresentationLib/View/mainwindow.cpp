@@ -7,27 +7,41 @@
 
 /*--------------------------------------------------------------------------------*/
 
-MainWindow::MainWindow(
-    TCalculadoraWrapper* _wrapper,
+CalculadoraView::CalculadoraView(
     QWidget* parent
 ) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
-    wrapper(_wrapper)
+    ui(new Ui::MainWindow)
 {
     Inicializa();
 }
 
 /*--------------------------------------------------------------------------------*/
 
-MainWindow::~MainWindow()
+CalculadoraView::~CalculadoraView()
 {
     delete ui;
 }
 
 /*--------------------------------------------------------------------------------*/
 
-void MainWindow::Inicializa()
+void CalculadoraView::Show()
+{
+    show();
+}
+
+/*--------------------------------------------------------------------------------*/
+
+void CalculadoraView::Subscribe(
+    ICalculadoraViewSubscriber* _subscriber
+)
+{
+    subscriber = _subscriber;
+}
+
+/*--------------------------------------------------------------------------------*/
+
+void CalculadoraView::Inicializa()
 {
     ui->setupUi(this);
 
@@ -41,7 +55,7 @@ void MainWindow::Inicializa()
 
 /*--------------------------------------------------------------------------------*/
 
-void MainWindow::InicializaConexoes()
+void CalculadoraView::InicializaConexoes()
 {
     connect(ui->adicionarButton, SIGNAL(clicked()), this, SLOT(AdicionarParticipante()));
     connect(ui->removerButton, SIGNAL(clicked()), this, SLOT(RemoverParticipante()));
@@ -50,7 +64,7 @@ void MainWindow::InicializaConexoes()
 
 /*--------------------------------------------------------------------------------*/
 
-void MainWindow::AdicionarParticipante()
+void CalculadoraView::AdicionarParticipante()
 {
     const QString nomeParticipante = ui->participantesLineEdit->text();
     if (!nomeParticipante.isEmpty()) {
@@ -66,7 +80,7 @@ void MainWindow::AdicionarParticipante()
 
 /*--------------------------------------------------------------------------------*/
 
-void MainWindow::RemoverParticipante()
+void CalculadoraView::RemoverParticipante()
 {
     QModelIndexList selectedList = ui->listParticipantes->selectionModel()->selectedIndexes();
     if (!selectedList.isEmpty()) {
@@ -81,7 +95,7 @@ void MainWindow::RemoverParticipante()
 
 /*--------------------------------------------------------------------------------*/
 
-void MainWindow::AvancarButtonClick()
+void CalculadoraView::AvancarButtonClick()
 {
     if (ui->listParticipantes->count() == 0) {
         QMessageBox::warning(this, "Aviso", "Não há participante cadastrado.");
@@ -93,7 +107,7 @@ void MainWindow::AvancarButtonClick()
         participantes->push_back(item->text());
     }
 
-    wrapper->CadastraParticipantes(participantes);
+    subscriber->CadastraParticipantes(participantes);
 }
 
 /*--------------------------------------------------------------------------------*/

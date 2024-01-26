@@ -2,7 +2,8 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "CalculadoraWrapper.h"
+
+#include "Interfaces/ICalculadoraView.h"
 
 /*--------------------------------------------------------------------------------*/
 
@@ -12,18 +13,23 @@ QT_END_NAMESPACE
 
 /*--------------------------------------------------------------------------------*/
 
-class MainWindow : public QMainWindow
+class CalculadoraView : public QMainWindow, public ICalculadoraView
 {
     Q_OBJECT
 
 public:
 
-    MainWindow(
-        TCalculadoraWrapper* _wrapper,
+    CalculadoraView(
         QWidget * parent = nullptr
     );
 
-    ~MainWindow();
+    ~CalculadoraView();
+
+    void Show() override;
+
+    void Subscribe(
+        ICalculadoraViewSubscriber* _subscriber
+    ) override;
 
 private slots:
 
@@ -39,7 +45,7 @@ private:
 
     Ui::MainWindow *ui;
 
-    TCalculadoraWrapper* wrapper;
+    ICalculadoraViewSubscriber* subscriber;
 };
 
 /*--------------------------------------------------------------------------------*/

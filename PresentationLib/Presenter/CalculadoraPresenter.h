@@ -4,27 +4,26 @@
 #include <string>
 #include <list>
 #include <vector>
+#include "Interfaces/ICalculadoraViewSubscriber.h"
+#include "Interfaces/ICalculadoraView.h"
 
 /*--------------------------------------------------------------------------------*/
 
-class TCalculadoraPresenter {
+class TCalculadoraPresenter : public ICalculadoraViewSubscriber {
 
 public:
-    TCalculadoraPresenter();
+    TCalculadoraPresenter(
+        ICalculadoraView* _view
+    );
 
     ~TCalculadoraPresenter() = default;
 
-    int ShowWindow(
-        int argc,
-        char* argv[]
-    );
-
     void CadastraParticipantes(
-        std::vector<std::string>* participantes
+        QVector<QString>* participantes
     );
 
 private:
-
+    ICalculadoraView* view;
 };
 
 /*--------------------------------------------------------------------------------*/

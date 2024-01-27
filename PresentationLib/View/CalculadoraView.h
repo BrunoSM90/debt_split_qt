@@ -27,7 +27,6 @@ class CalculadoraView : public QMainWindow, public ICalculadoraView
     Q_OBJECT
 
 public:
-
     CalculadoraView(QWidget *parent = nullptr);
 
     ~CalculadoraView();
@@ -38,21 +37,26 @@ public:
         ICalculadoraViewSubscriber* _subscriber
     ) override;
 
+    void MostraMensagemAviso(
+        QString& texto
+    );
+
+    void AdicionaParticipanteBox() override;
+
 private slots:
 
-    void AdicionarParticipante();
-    void RemoverParticipante();
+    void AdicionaParticipante();
+    void RemoveParticipante();
 
     void AvancarStep1();
     void AvancarStep2();
+    void AvancarStep3();
 
     void VoltarStep1();
     void VoltarStep2();
 
-    void CalularDividas();
 
 private:
-
     void Inicializa();
 
     void InicializaConexoes();

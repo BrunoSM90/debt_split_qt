@@ -3,7 +3,6 @@
 
 #include <string>
 #include <list>
-#include <vector>
 #include "Interfaces/ICalculadoraViewSubscriber.h"
 #include "Interfaces/ICalculadoraView.h"
 
@@ -18,11 +17,21 @@ public:
 
     ~TCalculadoraPresenter() = default;
 
-    void CadastraParticipantes(
-        QVector<QString>* participantes
-    );
+    void AdicionaParticipante(
+        QString& _nomeParticipante
+    ) override;
+
+    void RemoveParticipante(
+        QString& _nomeParticipante
+    ) override;
 
 private:
+    bool NomeJaConsta(
+        std::string _nomeParticipante
+    ) const;
+
+    std::list<std::string> nomesParticipantes;
+
     ICalculadoraView* view;
 };
 

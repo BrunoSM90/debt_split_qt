@@ -11,7 +11,9 @@ class ICalculadoraViewSubscriber {
 public:
 	virtual ~ICalculadoraViewSubscriber() {};
 
-	virtual void CadastraParticipantes(QVector<QString>* participantes) = 0;
+	virtual void AdicionaParticipante(QString& _nomeParticipante) = 0;
+
+	virtual void RemoveParticipante(QString& _nomeParticipante) = 0;
 };
 
 /*--------------------------------------------------------------------------------*/

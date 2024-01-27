@@ -1,5 +1,7 @@
 #include "CalculadoraView.h"
+
 #include "ui_mainwindow.h"
+#include <qmessagebox>
 
 /*--------------------------------------------------------------------------------*/
 
@@ -38,12 +40,9 @@ void CalculadoraView::Subscribe(
 void CalculadoraView::Inicializa()
 {
     ui->setupUi(this);
+    ui->stackedWidget->setCurrentIndex(PAGESINDEX::PARTICIPANTES_PAGE);
 
     InicializaConexoes();
-
-    //QString font = "font: 75 9pt 'MS Shell Dlg 2'";
-    //ui->insiraParticipantesLabel->setStyleSheet(font);
-    //ui->labelParticipantes->setStyleSheet(font);
 }
 
 /*--------------------------------------------------------------------------------*/
@@ -52,13 +51,13 @@ void CalculadoraView::InicializaConexoes()
 {
     connect(ui->avancarButton, SIGNAL(clicked()), this, SLOT(AvancarStep1()));
     connect(ui->avancarButton2, SIGNAL(clicked()), this, SLOT(AvancarStep2()));
-    connect(ui->calcularButton, SIGNAL(clicked()), this, SLOT(CalularDividas()));
+    connect(ui->calcularButton, SIGNAL(clicked()), this, SLOT(AvancarStep3()));
 
     connect(ui->voltarButton2, SIGNAL(clicked()), this, SLOT(VoltarStep1()));
     connect(ui->voltarButton3, SIGNAL(clicked()), this, SLOT(VoltarStep2()));
 
-    //connect(ui->removerButton, SIGNAL(clicked()), this, SLOT(RemoverParticipante()));
-    //connect(ui->avancarButton, SIGNAL(clicked()), this, SLOT(AvancarButtonClick()));
+    connect(ui->adicionarParticipanteButton, SIGNAL(clicked()), this, SLOT(AdicionaParticipante()));
+    connect(ui->removeParticipanterButton, SIGNAL(clicked()), this, SLOT(RemoveParticipante()));
 }
 
 /*--------------------------------------------------------------------------------*/
@@ -78,6 +77,13 @@ void CalculadoraView::AvancarStep2()
 
 /*--------------------------------------------------------------------------------*/
 
+void CalculadoraView::AvancarStep3()
+{
+    ui->stackedWidget->setCurrentIndex(PAGESINDEX::CALCULO_PAGE);
+}
+
+/*--------------------------------------------------------------------------------*/
+
 void CalculadoraView::VoltarStep1()
 {
     ui->stackedWidget->setCurrentIndex(PAGESINDEX::PARTICIPANTES_PAGE);
@@ -92,39 +98,42 @@ void CalculadoraView::VoltarStep2()
 
 /*--------------------------------------------------------------------------------*/
 
-void CalculadoraView::CalularDividas()
+void CalculadoraView::AdicionaParticipante()
 {
-    ui->stackedWidget->setCurrentIndex(3);
-}
-
-/*--------------------------------------------------------------------------------*/
-void CalculadoraView::AdicionarParticipante()
-{
-    /*const QString nomeParticipante = ui->participantesLineEdit->text();
-    if (!nomeParticipante.isEmpty()) {
-        ui->listParticipantes->addItem(nomeParticipante);
-        ui->participantesLineEdit->clear();
-    }
-    else {
-        QMessageBox::warning(this, "Aviso", "O campo nome não pode estar vazio.");
-    }
-
-    ui->participantesLineEdit->setFocus();*/
+    QString nomeParticipante = ui->nomeLineEdit->text();
+    std::string nome = nomeParticipante.toStdString().c_str();
+    subscriber->AdicionaParticipante(nomeParticipante);
+    ui->nomeLineEdit->setFocus();
 }
 
 /*--------------------------------------------------------------------------------*/
 
-void CalculadoraView::RemoverParticipante()
+void CalculadoraView::AdicionaParticipanteBox()
 {
-    /*QModelIndexList selectedList = ui->listParticipantes->selectionModel()->selectedIndexes();
+    ui->participantesList->addItem(ui->nomeLineEdit->text());
+    ui->nomeLineEdit->clear();
+}
+
+/*--------------------------------------------------------------------------------*/
+
+void CalculadoraView::RemoveParticipante()
+{
+    QModelIndexList selectedList = ui->participantesList->selectionModel()->selectedIndexes();
     if (!selectedList.isEmpty()) {
-        for (const QModelIndex& singleIndex : selectedList) {
-            ui->listParticipantes->model()->removeRow(singleIndex.row());
-        }
+        const QModelIndex& index = selectedList.first();
+        QString texto = index.data().toString();
+        subscriber->RemoveParticipante(texto);
+        ui->participantesList->model()->removeRow(index.row());
     }
-    else {
-        QMessageBox::warning(this, "Aviso", "Você deve selecionar um participante para remover.");
-    }*/
+}
+
+/*--------------------------------------------------------------------------------*/
+
+void CalculadoraView::MostraMensagemAviso(
+    QString& texto
+)
+{
+    QMessageBox::warning(this, QString("titulo"), texto);
 }
 
 /*--------------------------------------------------------------------------------*/

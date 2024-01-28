@@ -133,7 +133,7 @@
             </widget>
            </item>
            <item>
-            <widget class="QListView" name="listaParticipantes2Label"/>
+            <widget class="QListWidget" name="listaParticipantes2"/>
            </item>
           </layout>
          </item>

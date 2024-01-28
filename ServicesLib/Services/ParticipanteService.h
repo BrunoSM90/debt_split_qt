@@ -21,18 +21,26 @@ public:
 
     ~TParticipanteService();
 
-    std::list<TParticipante*>* CadastraParticipantes();
-
-    TParticipante* CriaParticipante(
-        const size_t i,
-        const size_t numParticipantes
+    void CadastraParticipantes(
+        const std::list<std::string>& nomesParticipantes
     );
 
-private:
+    void RemoveParticipante(
+        const std::string& nome
+    );
 
-    size_t LeNumeroParticipantes() const;
+    bool ParticipanteComprouProdutos(
+        const std::string& nome
+    ) const;
+
+private:
+    TParticipante* BuscaParticipante(
+        const std::string& nome
+    ) const;
 
     TProdutoService* prodService;
+
+    std::list<TParticipante*>* participantes;
 };
 
 #endif

@@ -8,11 +8,16 @@
 
 /*--------------------------------------------------------------------------------*/
 
+class TParticipanteService;
+
+/*--------------------------------------------------------------------------------*/
+
 class TCalculadoraPresenter : public ICalculadoraViewSubscriber {
 
 public:
     TCalculadoraPresenter(
-        ICalculadoraView* _view
+        ICalculadoraView* _view,
+        TParticipanteService* _partService
     );
 
     ~TCalculadoraPresenter() = default;
@@ -25,6 +30,8 @@ public:
         QString& _nomeParticipante
     ) override;
 
+    void CadastraParticipantes();
+
 private:
     bool NomeJaConsta(
         std::string _nomeParticipante
@@ -33,6 +40,8 @@ private:
     std::list<std::string> nomesParticipantes;
 
     ICalculadoraView* view;
+
+    TParticipanteService* partService;
 };
 
 /*--------------------------------------------------------------------------------*/

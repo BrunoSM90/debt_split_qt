@@ -2,6 +2,7 @@
 
 #include <qstring.h>
 #include <string>
+#include "Services/ParticipanteService.h"
 
 /*--------------------------------------------------------------------------------*/
 
@@ -10,9 +11,11 @@ using namespace std;
 /*--------------------------------------------------------------------------------*/
 
 TCalculadoraPresenter::TCalculadoraPresenter(
-    ICalculadoraView* _view
+    ICalculadoraView* _view,
+	TParticipanteService* _partService
 ) :
-    view(_view)
+    view(_view),
+	partService(_partService)
 {
     view->Subscribe(this);
 }
@@ -69,9 +72,30 @@ void TCalculadoraPresenter::RemoveParticipante(
 	QString& _nomeParticipante
 )
 {
-	using namespace std;
 	const string nomeParticipante = _nomeParticipante.toStdString().c_str();
-	nomesParticipantes.remove(nomeParticipante);
+	bool deveRemover = true;
+	if (partService->ParticipanteComprouProdutos(nomeParticipante)) {
+		deveRemover = view->MostraMensagemSimNao(QString("O participante tem produtos comprados.\nDeseja remover mesmo assim?"));
+	}
+	
+	if (deveRemover) {
+		partService->RemoveParticipante(nomeParticipante);
+		nomesParticipantes.remove(nomeParticipante);
+	}
+}
+
+/*--------------------------------------------------------------------------------*/
+
+void TCalculadoraPresenter::CadastraParticipantes()
+{
+	partService->CadastraParticipantes(nomesParticipantes);
+
+	for (const string& nomeParticipante : nomesParticipantes) {
+		QString nome = QString::fromStdString(nomeParticipante);
+		view->InsereParticipanteTelaProduto(nome);
+	}
+
+	view->AvancaStep(1);
 }
 
 /*--------------------------------------------------------------------------------*/

@@ -18,74 +18,66 @@ TParticipanteService::TParticipanteService(
 ) :
     prodService(_prodService)
 {
+    participantes = new list<TParticipante*>();
 }
 
 /*--------------------------------------------------------------------------------*/
-
 
 TParticipanteService::~TParticipanteService()
 {
     delete prodService;
+    delete participantes;
 }
 
 /*--------------------------------------------------------------------------------*/
 
-list<TParticipante*>* TParticipanteService::CadastraParticipantes() 
-{
-    size_t numParticipantes = LeNumeroParticipantes();
-    if (numParticipantes > 0) {
-        auto participantes = new list<TParticipante*>();
-        for (size_t i = 0; i < numParticipantes; i++) {
-            TParticipante* participante = CriaParticipante(i, numParticipantes);
-            participantes->push_back(participante);
-            idParticipante++;
-            system("cls");
-        }
-
-        return participantes;
-    }
-
-    return nullptr;
-}
-
-/*--------------------------------------------------------------------------------*/
-
-size_t TParticipanteService::LeNumeroParticipantes() const
-{
-    size_t numParticipantes = 0;
-    cout << "Insira o número de participantes: \n";
-    cin >> numParticipantes;
-    NumberValidator validator(cin);
-    validator.ValidaInteger(numParticipantes);
-
-    system("cls");
-
-    return numParticipantes;
-}
-
-/*--------------------------------------------------------------------------------*/
-
-TParticipante* TParticipanteService::CriaParticipante(
-    const size_t i,
-    const size_t numParticipantes
+void TParticipanteService::CadastraParticipantes(
+    const list<string>& nomesParticipantes
 ) 
 {
-    string nome = "";
-    size_t nProdutosComprados = 0;
-
-    cout << "Nome do participante (" << i + 1 << "/" << numParticipantes << ")" << "\n";
-    cin >> nome;
-    cout << "Quantos produtos " << nome << " comprou?\n";
-    cin >> nProdutosComprados;
-    NumberValidator validator(cin);
-    validator.ValidaInteger(nProdutosComprados);
-
-    auto participante = new TParticipante(idParticipante, nome);
-    if (nProdutosComprados > 0) {
-        prodService->CriaProdutosComprados(participante, nProdutosComprados);
+    for (const string& nome : nomesParticipantes) {
+        TParticipante* participante = BuscaParticipante(nome);
+        if (participante == nullptr) {
+            TParticipante* participante = new TParticipante(idParticipante, nome);
+            participantes->push_back(participante);
+            idParticipante++;
+        }
     }
+}
 
-    return participante;
+/*--------------------------------------------------------------------------------*/
+
+void TParticipanteService::RemoveParticipante(
+    const string& nome
+)
+{
+    TParticipante* participante = BuscaParticipante(nome);
+    participantes->remove(participante);
+}
+
+/*--------------------------------------------------------------------------------*/
+
+bool TParticipanteService::ParticipanteComprouProdutos(
+    const string& nome
+) const
+{
+    TParticipante* participante = BuscaParticipante(nome);
+
+    return participante != nullptr && participante->GetProdutosComprados().size() > 0;
+}
+
+/*--------------------------------------------------------------------------------*/
+
+TParticipante* TParticipanteService::BuscaParticipante(
+    const string& nome
+) const
+{
+    auto find = [nome](TParticipante* participante)->bool
+        {return participante->GetNome() == nome; };
+
+    auto it = std::find_if(participantes->begin(), participantes->end(), find);
+
+    return it != participantes->end() ? dynamic_cast<TParticipante*>(*it) : nullptr;
 }
 
 /*--------------------------------------------------------------------------------*/

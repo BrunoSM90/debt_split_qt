@@ -14,6 +14,8 @@ public:
 	virtual void AdicionaParticipante(QString& _nomeParticipante) = 0;
 
 	virtual void RemoveParticipante(QString& _nomeParticipante) = 0;
+
+	virtual void CadastraParticipantes() = 0;
 };
 
 /*--------------------------------------------------------------------------------*/

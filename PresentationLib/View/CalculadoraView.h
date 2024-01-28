@@ -37,11 +37,23 @@ public:
         ICalculadoraViewSubscriber* _subscriber
     ) override;
 
-    void MostraMensagemAviso(
-        QString& texto
-    );
+    void AvancaStep(
+        int step
+    ) override;
 
     void AdicionaParticipanteBox() override;
+
+    void InsereParticipanteTelaProduto(
+        const QString& nome
+    ) override;
+
+    bool MostraMensagemSimNao(
+        QString& texto
+    ) override;
+
+    void MostraMensagemAviso(
+        QString& texto
+    ) override;
 
 private slots:
 

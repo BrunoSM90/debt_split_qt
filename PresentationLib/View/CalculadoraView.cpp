@@ -62,9 +62,18 @@ void CalculadoraView::InicializaConexoes()
 
 /*--------------------------------------------------------------------------------*/
 
+void CalculadoraView::AvancaStep(
+    int step
+)
+{
+    ui->stackedWidget->setCurrentIndex(step);
+}
+
+/*--------------------------------------------------------------------------------*/
+
 void CalculadoraView::AvancarStep1()
 {
-    ui->stackedWidget->setCurrentIndex(PAGESINDEX::PRODUTOS_PAGE);
+    subscriber->CadastraParticipantes();
 }
 
 /*--------------------------------------------------------------------------------*/
@@ -129,11 +138,29 @@ void CalculadoraView::RemoveParticipante()
 
 /*--------------------------------------------------------------------------------*/
 
+void CalculadoraView::InsereParticipanteTelaProduto(
+    const QString& nome
+)
+{
+    ui->listaParticipantes2->addItem(nome);
+}
+
+/*--------------------------------------------------------------------------------*/
+
 void CalculadoraView::MostraMensagemAviso(
     QString& texto
 )
 {
-    QMessageBox::warning(this, QString("titulo"), texto);
+    QMessageBox::warning(this, QString("Aviso"), texto);
+}
+
+/*--------------------------------------------------------------------------------*/
+
+bool CalculadoraView::MostraMensagemSimNao(
+    QString& texto
+)
+{
+    return QMessageBox::question(this, QString("Aviso"), texto, QMessageBox::Yes | QMessageBox::No);
 }
 
 /*--------------------------------------------------------------------------------*/

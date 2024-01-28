@@ -3,6 +3,8 @@
 
 #include "ICalculadoraViewSubscriber.h"
 
+#include <qvariant>
+
 /*--------------------------------------------------------------------------------*/
 
 class ICalculadoraView {
@@ -30,8 +32,15 @@ public:
         int step
     ) = 0;
 
+    virtual void LimpaTelaParticipanteProduto() = 0;
+
     virtual void InsereParticipanteTelaProduto(
         const QString& nome
+    ) = 0;
+
+    virtual void InsereProduto(
+        const QString& nomeProduto,
+        double valorProduto
     ) = 0;
 };
 

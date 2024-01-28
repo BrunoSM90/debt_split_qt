@@ -30,7 +30,9 @@ public:
         QString& _nomeParticipante
     ) override;
 
-    void CadastraParticipantes();
+    void CadastraParticipantes() override;
+
+    void AtualizaListaProdutos() override;
 
 private:
     bool NomeJaConsta(

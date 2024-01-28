@@ -23,6 +23,9 @@ set(SOURCES
     ${VIEW_FOLDER}/CalculadoraView.h
     ${VIEW_FOLDER}/CalculadoraView.cpp
     ${VIEW_FOLDER}/widget.ui
+    ${VIEW_FOLDER}/ProductDialog.h
+    ${VIEW_FOLDER}/ProductDialog.cpp
+    ${VIEW_FOLDER}/productDialog.ui
     ${INTERFACES_FOLDER}/ICalculadoraViewSubscriber.h
     ${INTERFACES_FOLDER}/ICalculadoraView.h
 )

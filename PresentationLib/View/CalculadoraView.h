@@ -6,6 +6,7 @@
 #include <QWidget>
 
 #include "Interfaces/ICalculadoraView.h"
+#include "View/ProductDialog.h"
 
 /*--------------------------------------------------------------------------------*/
 
@@ -45,8 +46,15 @@ public:
 
     void AdicionaParticipanteBox() override;
 
+    void LimpaTelaParticipanteProduto() override;
+
     void InsereParticipanteTelaProduto(
         const QString& nome
+    ) override;
+
+    void InsereProduto(
+        const QString& nomeProduto,
+        double valorProduto
     ) override;
 
     bool MostraMensagemSimNao(
@@ -57,10 +65,15 @@ public:
         QString& texto
     ) override;
 
+
 private slots:
 
-    void AdicionaParticipante();
-    void RemoveParticipante();
+    void AdicionaParticipanteClick();
+    void RemoveParticipanteClick();
+
+    void AtualizaListaProdutos();
+    void AdicionaProdutoClick();
+    void RemoveProdutoClick();
 
     void AvancarStep1();
     void AvancarStep2();
@@ -75,8 +88,16 @@ private:
 
     void InicializaConexoes();
 
+    void keyPressEvent(
+        QKeyEvent* event
+    ) override;
+
+    void EnterKeyPressed();
+
     Ui::Widget* ui;
 
     ICalculadoraViewSubscriber* subscriber;
+
+    ProductDialog* productDialog;
 };
 #endif // WIDGET_H

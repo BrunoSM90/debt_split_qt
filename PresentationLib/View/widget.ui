@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="inserirParticipantesPage">
     <widget class="QWidget" name="layoutWidget">
@@ -133,7 +133,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QListView" name="listaParticipantes2Label"/>
+           <widget class="QListWidget" name="listaParticipantesProdutos"/>
           </item>
          </layout>
         </item>
@@ -164,7 +164,7 @@
            </layout>
           </item>
           <item>
-           <widget class="QColumnView" name="produtosColumnView"/>
+           <widget class="QTableWidget" name="produtosTableWidget"/>
           </item>
          </layout>
         </item>

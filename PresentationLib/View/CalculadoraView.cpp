@@ -1,13 +1,14 @@
 #include "CalculadoraView.h"
 
 #include "ui_widget.h"
+#include <qevent.h>
 #include <qmessagebox>
 
 /*--------------------------------------------------------------------------------*/
 
 CalculadoraView::CalculadoraView(QWidget *parent)
-    : QWidget(parent)
-    , ui(new Ui::Widget)
+    : QWidget(parent),
+      ui(new Ui::Widget)
 {
     Inicializa();
 }
@@ -25,6 +26,8 @@ void CalculadoraView::Inicializa()
 {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(EPAGESINDEX::PARTICIPANTES_PAGE);
+
+    ui->produtosTableWidget->setColumnCount(2);
 
     InicializaConexoes();
 }
@@ -47,6 +50,26 @@ void CalculadoraView::Subscribe(
 
 /*--------------------------------------------------------------------------------*/
 
+void CalculadoraView::keyPressEvent(QKeyEvent* event)
+{
+    if (event->type() == QEvent::KeyPress) {
+        if (event->key() == Qt::Key_Return) {
+            EnterKeyPressed();
+        }
+    }
+}
+
+/*--------------------------------------------------------------------------------*/
+
+void CalculadoraView::EnterKeyPressed()
+{
+    if (ui->nomeLineEdit->hasFocus() && ui->nomeLineEdit->text() != "") {
+        AdicionaParticipanteClick();
+    }
+}
+
+/*--------------------------------------------------------------------------------*/
+
 void CalculadoraView::InicializaConexoes()
 {
     connect(ui->avancarButton, SIGNAL(clicked()), this, SLOT(AvancarStep1()));
@@ -56,8 +79,13 @@ void CalculadoraView::InicializaConexoes()
     connect(ui->voltarButton2, SIGNAL(clicked()), this, SLOT(VoltarStep1()));
     connect(ui->voltarButton3, SIGNAL(clicked()), this, SLOT(VoltarStep2()));
 
-    connect(ui->adicionarParticipanteButton, SIGNAL(clicked()), this, SLOT(AdicionaParticipante()));
-    connect(ui->removeParticipanterButton, SIGNAL(clicked()), this, SLOT(RemoveParticipante()));
+    connect(ui->adicionarParticipanteButton, SIGNAL(clicked()), this, SLOT(AdicionaParticipanteClick()));
+    connect(ui->removeParticipanterButton, SIGNAL(clicked()), this, SLOT(RemoveParticipanteClick()));
+
+    connect(ui->adicionarProdutoButton, SIGNAL(clicked()), this, SLOT(AdicionaProdutoClick()));
+    connect(ui->removerProdutoButton, SIGNAL(clicked()), this, SLOT(RemoveProdutoClick()));
+
+    connect(ui->listaParticipantesProdutos, SIGNAL(itemSelectionChanged()), this, SLOT(AtualizaListaProdutos()));
 }
 
 /*--------------------------------------------------------------------------------*/
@@ -66,6 +94,10 @@ void CalculadoraView::AvancaStep(
     int step
 )
 {
+    if (step == 1) {
+        ui->participantesList->selectionModel()->clearSelection();
+    }
+
     ui->stackedWidget->setCurrentIndex(step);
 }
 
@@ -107,7 +139,7 @@ void CalculadoraView::VoltarStep2()
 
 /*--------------------------------------------------------------------------------*/
 
-void CalculadoraView::AdicionaParticipante()
+void CalculadoraView::AdicionaParticipanteClick()
 {
     QString nomeParticipante = ui->nomeLineEdit->text();
     std::string nome = nomeParticipante.toStdString().c_str();
@@ -125,7 +157,7 @@ void CalculadoraView::AdicionaParticipanteBox()
 
 /*--------------------------------------------------------------------------------*/
 
-void CalculadoraView::RemoveParticipante()
+void CalculadoraView::RemoveParticipanteClick()
 {
     QModelIndexList selectedList = ui->participantesList->selectionModel()->selectedIndexes();
     if (!selectedList.isEmpty()) {
@@ -138,11 +170,55 @@ void CalculadoraView::RemoveParticipante()
 
 /*--------------------------------------------------------------------------------*/
 
+void CalculadoraView::LimpaTelaParticipanteProduto()
+{
+    ui->listaParticipantesProdutos->clear();
+}
+
+/*--------------------------------------------------------------------------------*/
+
 void CalculadoraView::InsereParticipanteTelaProduto(
     const QString& nome
 )
 {
-    //ui->listaParticipantes2Label->addItem(nome);
+    ui->listaParticipantesProdutos->addItem(nome);
+}
+
+/*--------------------------------------------------------------------------------*/
+
+void CalculadoraView::AtualizaListaProdutos()
+{
+    subscriber->AtualizaListaProdutos();
+}
+
+/*--------------------------------------------------------------------------------*/
+
+void CalculadoraView::InsereProduto(
+    const QString& nomeProduto,
+    double valorProduto
+)
+{
+    const int count = ui->produtosTableWidget->rowCount();
+    ui->produtosTableWidget->insertRow(count);
+    QTableWidgetItem* nome = new QTableWidgetItem(nomeProduto);
+    QTableWidgetItem* valor = new QTableWidgetItem(valorProduto);
+    ui->produtosTableWidget->setItem(count, 0, nome);
+    ui->produtosTableWidget->setItem(count, 1, valor);
+}
+
+/*--------------------------------------------------------------------------------*/
+
+void CalculadoraView::AdicionaProdutoClick()
+{
+    productDialog = new ProductDialog(this);
+    productDialog->show();
+}
+
+/*--------------------------------------------------------------------------------*/
+
+void CalculadoraView::RemoveProdutoClick()
+{
+    
 }
 
 /*--------------------------------------------------------------------------------*/

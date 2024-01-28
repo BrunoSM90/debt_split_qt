@@ -90,12 +90,27 @@ void TCalculadoraPresenter::CadastraParticipantes()
 {
 	partService->CadastraParticipantes(nomesParticipantes);
 
+	view->LimpaTelaParticipanteProduto();
 	for (const string& nomeParticipante : nomesParticipantes) {
 		QString nome = QString::fromStdString(nomeParticipante);
 		view->InsereParticipanteTelaProduto(nome);
 	}
 
 	view->AvancaStep(1);
+}
+
+/*--------------------------------------------------------------------------------*/
+
+void TCalculadoraPresenter::AtualizaListaProdutos()
+{
+	//teste
+	QString nome1("Carne");
+	QString nome2("Carvão");
+	QString nome3("Vodka");
+
+	view->InsereProduto(nome1, 52.90);
+	view->InsereProduto(nome2, 35.10);
+	view->InsereProduto(nome3, 15.50);
 }
 
 /*--------------------------------------------------------------------------------*/

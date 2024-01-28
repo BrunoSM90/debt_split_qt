@@ -1,13 +1,13 @@
 #include "CalculadoraView.h"
 
-#include "ui_mainwindow.h"
+#include "ui_widget.h"
 #include <qmessagebox>
 
 /*--------------------------------------------------------------------------------*/
 
 CalculadoraView::CalculadoraView(QWidget *parent)
-    : QMainWindow(parent)
-    , ui(new Ui::MainWindow)
+    : QWidget(parent)
+    , ui(new Ui::Widget)
 {
     Inicializa();
 }
@@ -17,6 +17,16 @@ CalculadoraView::CalculadoraView(QWidget *parent)
 CalculadoraView::~CalculadoraView()
 {
     delete ui;
+}
+
+/*--------------------------------------------------------------------------------*/
+
+void CalculadoraView::Inicializa()
+{
+    ui->setupUi(this);
+    ui->stackedWidget->setCurrentIndex(EPAGESINDEX::PARTICIPANTES_PAGE);
+
+    InicializaConexoes();
 }
 
 /*--------------------------------------------------------------------------------*/
@@ -33,16 +43,6 @@ void CalculadoraView::Subscribe(
 )
 {
     subscriber = _subscriber;
-}
-
-/*--------------------------------------------------------------------------------*/
-
-void CalculadoraView::Inicializa()
-{
-    ui->setupUi(this);
-    ui->stackedWidget->setCurrentIndex(PAGESINDEX::PARTICIPANTES_PAGE);
-
-    InicializaConexoes();
 }
 
 /*--------------------------------------------------------------------------------*/
@@ -81,28 +81,28 @@ void CalculadoraView::AvancarStep1()
 
 void CalculadoraView::AvancarStep2()
 {
-    ui->stackedWidget->setCurrentIndex(PAGESINDEX::CONSUMO_PAGE);
+    ui->stackedWidget->setCurrentIndex(EPAGESINDEX::CONSUMO_PAGE);
 }
 
 /*--------------------------------------------------------------------------------*/
 
 void CalculadoraView::AvancarStep3()
 {
-    ui->stackedWidget->setCurrentIndex(PAGESINDEX::CALCULO_PAGE);
+    ui->stackedWidget->setCurrentIndex(EPAGESINDEX::CALCULO_PAGE);
 }
 
 /*--------------------------------------------------------------------------------*/
 
 void CalculadoraView::VoltarStep1()
 {
-    ui->stackedWidget->setCurrentIndex(PAGESINDEX::PARTICIPANTES_PAGE);
+    ui->stackedWidget->setCurrentIndex(EPAGESINDEX::PARTICIPANTES_PAGE);
 }
 
 /*--------------------------------------------------------------------------------*/
 
 void CalculadoraView::VoltarStep2()
 {
-    ui->stackedWidget->setCurrentIndex(PAGESINDEX::PRODUTOS_PAGE);
+    ui->stackedWidget->setCurrentIndex(EPAGESINDEX::PRODUTOS_PAGE);
 }
 
 /*--------------------------------------------------------------------------------*/
@@ -142,7 +142,7 @@ void CalculadoraView::InsereParticipanteTelaProduto(
     const QString& nome
 )
 {
-    ui->listaParticipantes2->addItem(nome);
+    //ui->listaParticipantes2Label->addItem(nome);
 }
 
 /*--------------------------------------------------------------------------------*/
@@ -164,4 +164,6 @@ bool CalculadoraView::MostraMensagemSimNao(
 }
 
 /*--------------------------------------------------------------------------------*/
+
+
 

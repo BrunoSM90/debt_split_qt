@@ -5,6 +5,7 @@
 #include "Presenter/CalculadoraPresenter.h"
 #include "Services/ParticipanteService.h"
 #include "View/CalculadoraView.h"
+#include "View/MainWindow.h"
 
 /*--------------------------------------------------------------------------------*/
 

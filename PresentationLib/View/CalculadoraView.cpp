@@ -56,6 +56,9 @@ void CalculadoraView::keyPressEvent(QKeyEvent* event)
         if (event->key() == Qt::Key_Return) {
             EnterKeyPressed();
         }
+        else if (event->key() == Qt::Key_Backspace) {
+            //VoltarButtonClick();
+        }
     }
 }
 
@@ -63,8 +66,20 @@ void CalculadoraView::keyPressEvent(QKeyEvent* event)
 
 void CalculadoraView::EnterKeyPressed()
 {
-    if (ui->nomeLineEdit->hasFocus() && ui->nomeLineEdit->text() != "") {
-        AdicionaParticipanteClick();
+    if (ui->stackedWidget->currentIndex() == 0) {
+        if (ui->nomeLineEdit->hasFocus() && ui->nomeLineEdit->text() != "") {
+            AdicionaParticipanteClick();
+        }
+        else {
+            AvancarStep1();
+        }
+    }
+
+    else if (ui->avancarButton->hasFocus()) {
+        AvancarStep1();
+    }
+    else if (ui->listaParticipantesProdutos->selectedItems().size() > 0) {
+        AdicionaProdutoClick();
     }
 }
 
@@ -105,7 +120,13 @@ void CalculadoraView::AvancaStep(
 
 void CalculadoraView::AvancarStep1()
 {
-    subscriber->CadastraParticipantes();
+    if (ui->participantesList->selectedItems().size() > 0) {
+        subscriber->CadastraParticipantes();
+        ui->adicionarProdutoButton->setEnabled(false);
+    }
+    else {
+        MostraMensagemAviso(QString("Nenhum participante foi inserido."));
+    }
 }
 
 /*--------------------------------------------------------------------------------*/
@@ -189,6 +210,9 @@ void CalculadoraView::InsereParticipanteTelaProduto(
 void CalculadoraView::AtualizaListaProdutos()
 {
     subscriber->AtualizaListaProdutos();
+    if (ui->listaParticipantesProdutos->selectedItems().size() > 0) {
+        ui->adicionarProdutoButton->setEnabled(true);
+    }
 }
 
 /*--------------------------------------------------------------------------------*/
@@ -211,7 +235,10 @@ void CalculadoraView::InsereProduto(
 void CalculadoraView::AdicionaProdutoClick()
 {
     productDialog = new ProductDialog(this);
-    productDialog->show();
+    if (productDialog->exec() == QDialog::Accepted) {
+        const QString nomeProduto = productDialog->GetNomeProduto();
+        const QString valorProduto = productDialog->GetValorProduto();
+    }
 }
 
 /*--------------------------------------------------------------------------------*/

@@ -75,7 +75,7 @@ void TCalculadoraPresenter::RemoveParticipante(
 	const string nomeParticipante = _nomeParticipante.toStdString().c_str();
 	bool deveRemover = true;
 	if (partService->ParticipanteComprouProdutos(nomeParticipante)) {
-		deveRemover = view->MostraMensagemSimNao(QString("O participante tem produtos comprados.\nDeseja remover mesmo assim?"));
+		deveRemover = view->MostraMensagemSimNao("O participante tem produtos comprados.\nDeseja remover mesmo assim?");
 	}
 	
 	if (deveRemover) {
@@ -103,14 +103,7 @@ void TCalculadoraPresenter::CadastraParticipantes()
 
 void TCalculadoraPresenter::AtualizaListaProdutos()
 {
-	//teste
-	QString nome1("Carne");
-	QString nome2("Carvão");
-	QString nome3("Vodka");
-
-	view->InsereProduto(nome1, 52.90);
-	view->InsereProduto(nome2, 35.10);
-	view->InsereProduto(nome3, 15.50);
+	//view->InsereProduto(nome1, 52.90);
 }
 
 /*--------------------------------------------------------------------------------*/

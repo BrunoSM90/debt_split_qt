@@ -30,6 +30,12 @@ public:
 
     void InicializaConexoes();
 
+    QString GetNomeProduto();
+
+    QString GetValorProduto();
+
+    void DeveHabilitarAdicionarProdutoButton();
+
 private slots:
     void AdicionaProdutoClick();
 
@@ -42,8 +48,12 @@ private:
         QKeyEvent* event
     ) override;
 
-    void EnterKeyPressed();
+    bool AreInputsValid();
+
+    void ShowWarningMessage(
+        QString texto
+    );
 
     Ui::Dialog* ui;
 };
-#endif // WIDGET_H
+#endif // PRODUCTDIALOG_H

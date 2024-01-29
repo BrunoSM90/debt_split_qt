@@ -100,4 +100,4 @@ private:
 
     ProductDialog* productDialog;
 };
-#endif // WIDGET_H
+#endif // CALCULADORAVIEW_H

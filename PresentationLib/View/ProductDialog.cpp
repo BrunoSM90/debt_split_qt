@@ -42,32 +42,72 @@ void ProductDialog::keyPressEvent(QKeyEvent* event)
 {
     if (event->type() == QEvent::KeyPress) {
         if (event->key() == Qt::Key_Return) {
-            EnterKeyPressed();
+            AdicionaProdutoClick();
+        }
+        else if (event->key() == Qt::Key_Escape) {
+            FechaJanela();
         }
     }
 }
 
 /*--------------------------------------------------------------------------------*/
 
-void ProductDialog::EnterKeyPressed()
+bool ProductDialog::AreInputsValid()
 {
-    //if (ui->nomeLineEdit->hasFocus() && ui->nomeLineEdit->text() != "") {
-    //    AdicionaParticipanteClick();
-    //}
+    bool valido = true;
+    const QString nomeProduto = ui->nomeProdutoEdit->text();
+    const QString valorProduto = ui->valorProdutoEdit->text();
+    if (nomeProduto.isEmpty() || valorProduto.isEmpty()) {
+        ShowWarningMessage("Todos os campos devem estar preenchidos.");
+        return false;
+    }
+
+    QRegExp re("[+-]?\\d*\\.?\\d+");
+    if (!re.exactMatch(valorProduto)) {
+        ShowWarningMessage("O valor deve estar em formato numérico. Exemplo: 129.90");
+        return false;
+    }
+
+    return true;
+}
+
+/*--------------------------------------------------------------------------------*/
+
+void ProductDialog::ShowWarningMessage(
+    QString texto
+)
+{
+    QMessageBox::warning(this, "Aviso", texto);
 }
 
 /*--------------------------------------------------------------------------------*/
 
 void ProductDialog::AdicionaProdutoClick()
 {
-    
+    if (AreInputsValid()) {
+        QDialog::accept();
+    }
+}
+
+/*--------------------------------------------------------------------------------*/
+
+QString ProductDialog::GetNomeProduto()
+{
+    return ui->nomeProdutoEdit->text();
+}
+
+/*--------------------------------------------------------------------------------*/
+
+QString ProductDialog::GetValorProduto()
+{
+    return ui->valorProdutoEdit->text();
 }
 
 /*--------------------------------------------------------------------------------*/
 
 void ProductDialog::FechaJanela()
 {
-    
+    QDialog::reject();
 }
 
 /*--------------------------------------------------------------------------------*/

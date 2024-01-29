@@ -8,6 +8,7 @@ TO-DO list ():
 - Botão para gerar relatório (file ou modal).
 - Implementar um esquema de fazer cada pessoa fazer apenas um pagamento.
 - Custom linked list<T*> com métodos: hasMember, elementAt(), etc.
+- Traduzir código para inglês
 
 Próximo:
 

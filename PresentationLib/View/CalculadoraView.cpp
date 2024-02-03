@@ -120,17 +120,16 @@ void CalculadoraView::AvancaStep(
 
 void CalculadoraView::AvancarStep1()
 {
-    if (ui->participantesList->selectedItems().size() > 0) {
-        subscriber->CadastraParticipantes();
-        ui->adicionarProdutoButton->setEnabled(false);
+    if (ui->participantesList->count() == 0) {
+        MostraMensagemAviso(QString("Nenhum participante foi inserido."));
     }
     else {
-        MostraMensagemAviso(QString("Nenhum participante foi inserido."));
+        subscriber->CadastraParticipantes();
+        ui->adicionarProdutoButton->setEnabled(false);
     }
 }
 
 /*--------------------------------------------------------------------------------*/
-
 
 void CalculadoraView::AvancarStep2()
 {
@@ -183,8 +182,8 @@ void CalculadoraView::RemoveParticipanteClick()
     QModelIndexList selectedList = ui->participantesList->selectionModel()->selectedIndexes();
     if (!selectedList.isEmpty()) {
         const QModelIndex& index = selectedList.first();
-        QString texto = index.data().toString();
-        subscriber->RemoveParticipante(texto);
+        const QString nomeParticipante = index.data().toString();
+        subscriber->RemoveParticipante(nomeParticipante);
         ui->participantesList->model()->removeRow(index.row());
     }
 }
@@ -209,9 +208,22 @@ void CalculadoraView::InsereParticipanteTelaProduto(
 
 void CalculadoraView::AtualizaListaProdutos()
 {
-    subscriber->AtualizaListaProdutos();
     if (ui->listaParticipantesProdutos->selectedItems().size() > 0) {
+        const QListWidgetItem& item = *ui->listaParticipantesProdutos->selectedItems().first();
+        const QString nomeParticipante = item.text();
+        subscriber->AtualizaListaProdutos(nomeParticipante);
         ui->adicionarProdutoButton->setEnabled(true);
+    }
+}
+
+/*--------------------------------------------------------------------------------*/
+
+void CalculadoraView::LimpaListaProdutos()
+{
+    QAbstractItemModel* model = ui->produtosTableWidget->model();
+    int rowsCount = model->rowCount();
+    for (int i = 0; i < rowsCount; i++) {
+        model->removeRow(i);
     }
 }
 
@@ -224,6 +236,7 @@ void CalculadoraView::InsereProduto(
 {
     const int count = ui->produtosTableWidget->rowCount();
     ui->produtosTableWidget->insertRow(count);
+
     QTableWidgetItem* nome = new QTableWidgetItem(nomeProduto);
     QTableWidgetItem* valor = new QTableWidgetItem(valorProduto);
     ui->produtosTableWidget->setItem(count, 0, nome);
@@ -236,8 +249,12 @@ void CalculadoraView::AdicionaProdutoClick()
 {
     productDialog = new ProductDialog(this);
     if (productDialog->exec() == QDialog::Accepted) {
+        const QListWidgetItem& item = *ui->listaParticipantesProdutos->selectedItems().first();
+        const QString nomeParticipante = item.text();
         const QString nomeProduto = productDialog->GetNomeProduto();
         const QString valorProduto = productDialog->GetValorProduto();
+
+        subscriber->InsereProduto(nomeParticipante, nomeProduto, valorProduto);
     }
 }
 
@@ -245,13 +262,22 @@ void CalculadoraView::AdicionaProdutoClick()
 
 void CalculadoraView::RemoveProdutoClick()
 {
-    
+    const QList<QTableWidgetItem*>& produtosSelecionados = ui->produtosTableWidget->selectedItems();
+    if (produtosSelecionados.size() > 0) {
+        const QListWidgetItem* participante = ui->listaParticipantesProdutos->selectedItems().first();
+        const QTableWidgetItem* produto = produtosSelecionados.first();
+        subscriber->RemoveProdutoComprado(participante->text(), produto->text());
+        ui->produtosTableWidget->model()->removeRow(produto->row());
+    }
+    else {
+        MostraMensagemAviso("Nenhum produto selecionado.");
+    }
 }
 
 /*--------------------------------------------------------------------------------*/
 
 void CalculadoraView::MostraMensagemAviso(
-    QString& texto
+    QString texto
 )
 {
     QMessageBox::warning(this, QString("Aviso"), texto);

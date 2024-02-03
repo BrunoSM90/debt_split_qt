@@ -3,6 +3,7 @@
 #include "ui_productDialog.h"
 #include <qevent.h>
 #include <qmessagebox>
+#include <QDoubleValidator>
 
 /*--------------------------------------------------------------------------------*/
 
@@ -11,6 +12,7 @@ ProductDialog::ProductDialog(QWidget *parent)
       ui(new Ui::Dialog)
 {
     Inicializar();
+
 }
 
 /*--------------------------------------------------------------------------------*/
@@ -25,6 +27,7 @@ ProductDialog::~ProductDialog()
 void ProductDialog::Inicializar()
 {
     ui->setupUi(this);
+    ui->valorProdutoEdit->setValidator(new QDoubleValidator(0, 2000, 2, this));
     InicializaConexoes();
 }
 

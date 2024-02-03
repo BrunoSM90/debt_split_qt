@@ -56,6 +56,10 @@ public:
         TProduto* produto
     );
 
+    void RemoveProdutoComprado(
+        TProduto* produtoARemover
+    );
+
     void InsereNaoConsumido(
         TProduto* produto
     );

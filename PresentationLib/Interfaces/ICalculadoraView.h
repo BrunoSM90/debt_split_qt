@@ -19,7 +19,7 @@ public:
     virtual void Show() = 0;
 
     virtual void MostraMensagemAviso(
-        QString& texto
+        QString texto
     ) = 0;
 
     virtual void AdicionaParticipanteBox() = 0;
@@ -42,6 +42,8 @@ public:
         const QString& nomeProduto,
         double valorProduto
     ) = 0;
+
+    virtual void LimpaListaProdutos() = 0;
 };
 
 /*--------------------------------------------------------------------------------*/

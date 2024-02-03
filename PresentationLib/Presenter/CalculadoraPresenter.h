@@ -23,16 +23,29 @@ public:
     ~TCalculadoraPresenter() = default;
 
     void AdicionaParticipante(
-        QString& _nomeParticipante
+        const QString& _nomeParticipante
     ) override;
 
     void RemoveParticipante(
-        QString& _nomeParticipante
+        const QString& _nomeParticipante
     ) override;
 
     void CadastraParticipantes() override;
 
-    void AtualizaListaProdutos() override;
+    void AtualizaListaProdutos(
+        const QString& _nomeParticipante
+    ) override;
+
+    void InsereProduto(
+        const QString& _nomeParticipante,
+        const QString& _nomeProduto,
+        const QString& _valor
+    ) override;
+
+    void RemoveProdutoComprado(
+        const QString _nomeParticipante,
+        const QString _nomeProduto
+    ) override;
 
 private:
     bool NomeJaConsta(

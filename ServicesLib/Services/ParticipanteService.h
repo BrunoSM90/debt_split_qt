@@ -3,6 +3,7 @@
 
 #include <string>
 #include <list>
+#include <map>
 
 #include "Services/ProdutoService.h"
 
@@ -32,6 +33,26 @@ public:
     bool ParticipanteComprouProdutos(
         const std::string& nome
     ) const;
+
+    void InsereProdutoComprado(
+        const std::string& nomeParticipante,
+        const std::string& nomeProduto,
+        double valorProduto
+    );
+
+    void RemoveProdutoComprado(
+        const std::string nomeParticipante,
+        const std::string nomeProduto
+    );
+
+    std::map<std::string, double> Produtos(
+        const std::string& nomeParticipante
+    );
+
+    //const &??
+    std::list<TProduto*>& TodosProdutos(
+        const std::list<TParticipante*>* participantes
+    );
 
 private:
     TParticipante* BuscaParticipante(

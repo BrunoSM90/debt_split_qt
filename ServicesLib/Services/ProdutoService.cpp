@@ -10,8 +10,6 @@
 
 using namespace std;
 
-static int idProduto = 1;
-
 /*--------------------------------------------------------------------------------*/
 
 void TProdutoService::CriaProdutosComprados(
@@ -48,11 +46,12 @@ TProduto& TProdutoService::CriaProduto(
 
     cout << "\n\n";
 
-    auto produto = new TProduto(idProduto, nomeProduto, valorTotal);
+    //auto produto = new TProduto(idProduto, nomeProduto, valorTotal);
 
-    idProduto++;
+    //idProduto++;
 
-    return *produto;
+    //return *produto;
+    return TProduto();
 }
 
 /*--------------------------------------------------------------------------------*/
@@ -69,17 +68,6 @@ list<TProduto*>& TProdutoService::TodosProdutos(
     }
 
     return *produtos;
-}
-
-/*--------------------------------------------------------------------------------*/
-
-void TProdutoService::ImprimeProdutos(
-    const list<TProduto*>& produtos
-) 
-{
-    for (TProduto* produto : produtos) {
-        cout << produto->GetId() << ". " << produto->GetNome() << "\n\n";
-    }
 }
 
 /*--------------------------------------------------------------------------------*/

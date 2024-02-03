@@ -62,8 +62,12 @@ public:
     ) override;
 
     void MostraMensagemAviso(
-        QString& texto
+        QString texto
     ) override;
+
+    void LimpaListaProdutos() override;
+
+    void RemoveProduto();
 
 
 private slots:

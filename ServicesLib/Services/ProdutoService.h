@@ -30,10 +30,6 @@ public:
     std::list<TProduto*>& TodosProdutos(
         const std::list<TParticipante*>* participantes
     );
-
-    void ImprimeProdutos(
-        const std::list<TProduto*>& produtos
-    );
 };
 
 #endif

@@ -12,16 +12,29 @@ public:
 	virtual ~ICalculadoraViewSubscriber() {};
 
 	virtual void AdicionaParticipante(
-		QString& _nomeParticipante
+		const QString& _nomeParticipante
 	) = 0;
 
 	virtual void RemoveParticipante(
-		QString& _nomeParticipante
+		const QString& _nomeParticipante
 	) = 0;
 
 	virtual void CadastraParticipantes() = 0;
 
-	virtual void AtualizaListaProdutos() = 0;
+	virtual void AtualizaListaProdutos(
+		const QString& _nomeParticipante
+	) = 0;
+
+	virtual void InsereProduto(
+		const QString& _nomeParticipante,
+		const QString& _nomeProduto,
+		const QString& _valorProduto
+	) = 0;
+
+	virtual void RemoveProdutoComprado(
+		const QString _nomeParticipante,
+		const QString _nomeProduto
+	) = 0;
 };
 
 /*--------------------------------------------------------------------------------*/

@@ -135,6 +135,15 @@ void TParticipante::InsereProdutoComprado(
 
 /*--------------------------------------------------------------------------------*/
 
+void TParticipante::RemoveProdutoComprado(
+    TProduto* produtoARemover
+)
+{
+    produtosComprados->remove(produtoARemover);
+}
+
+/*--------------------------------------------------------------------------------*/
+
 void TParticipante::InsereNaoConsumido(
     TProduto* produto
 ) 
